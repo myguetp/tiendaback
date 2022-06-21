@@ -16,5 +16,11 @@ api.post('/login_cliente',clienteController.login_cliente);
 api.get('/listar_clientes_filtro_admin/:tipo/:filtro',auth.auth,clienteController.listar_clientes_filtro_admin);
 //registrar cliente
 api.post('/registro_cliente_admin',auth.auth,clienteController.registro_cliente_admin);
+//obtener data id
+api.get('/obtener_cliente_admin/:id',auth.auth,clienteController.obtener_cliente_admin);
+//actualizar
+api.put('/actualizar_cliente_admin/:id',auth.auth,clienteController.actualizar_cliente_admin);
+
+
 
 module.exports = api;
