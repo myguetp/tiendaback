@@ -8,6 +8,7 @@ const mongoose = require ('mongoose');
 //inicializacion de rutas
 let cliente_route = require('./routes/cliente');
 let admin_route = require('./routes/admin');
+let producto_route = require('./routes/producto');
 
 /*Conexion al puerto*/
 let port = process.env.PORT || 9000;
@@ -46,6 +47,6 @@ app.use((req,res,next)=>{
 //ruta uso
 app.use('/api',cliente_route);
 app.use('/api',admin_route);
-
+app.use('/api',producto_route);
 //inicializador 
 module.exports = app;

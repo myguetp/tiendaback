@@ -20,7 +20,8 @@ api.post('/registro_cliente_admin',auth.auth,clienteController.registro_cliente_
 api.get('/obtener_cliente_admin/:id',auth.auth,clienteController.obtener_cliente_admin);
 //actualizar
 api.put('/actualizar_cliente_admin/:id',auth.auth,clienteController.actualizar_cliente_admin);
-
+//eliminar
+api.delete('/eliminar_cliente_admin/:id',auth.auth,clienteController.eliminar_cliente_admin);
 
 
 module.exports = api;
