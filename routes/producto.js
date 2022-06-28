@@ -9,6 +9,7 @@ let auth = require('../middlewares/authenticate');
 let multiparty = require('connect-multiparty');
 let path = multiparty({uploadDir: './uploads/productos'})
 
+/*PRODUCTO */
 //registrar
 api.post('/registo_producto_admin',[auth.auth,path],productoController.registo_producto_admin);
 //listar
@@ -19,4 +20,14 @@ api.get('/obtener_portada/:img',productoController.obtener_portada);
 api.get('/obtener_producto_admin/:id',auth.auth,productoController.obtener_producto_admin);
 //actualizar el producto
 api.put('/actualizar_producto_admin/:id',[auth.auth,path],productoController.actualizar_producto_admin);
+//eliminar el producto
+api.delete('/eliminar_producto_admin/:id',auth.auth,productoController.eliminar_producto_admin);
+
+
+/*LISTAR PRODUCTO*/
+//listar
+api.get('/listar_inventario_producto_admin/:id',auth.auth,productoController.listar_inventario_producto_admin)
+//eliminar
+api.delete('/eliminar_inventario_producto_admin/:id',auth.auth,productoController.eliminar_inventario_producto_admin);
+
 module.exports = api;   
