@@ -12,6 +12,11 @@ let path = multiparty({uploadDir: './uploads/productos'})
 //registrar
 api.post('/registo_producto_admin',[auth.auth,path],productoController.registo_producto_admin);
 //listar
-api.get('/listar_productos_admin',[auth.auth],productoController.listar_productos_admin);
-
+api.get('/listar_productos_admin/:filtro?',auth.auth,productoController.listar_productos_admin);
+//mostrar imagen (es publico por eso no tiene el auth)
+api.get('/obtener_portada/:img',productoController.obtener_portada);
+//obtener el producto
+api.get('/obtener_producto_admin/:id',auth.auth,productoController.obtener_producto_admin);
+//actualizar el producto
+api.put('/actualizar_producto_admin/:id',[auth.auth,path],productoController.actualizar_producto_admin);
 module.exports = api;   
