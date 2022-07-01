@@ -202,7 +202,7 @@ const listar_inventario_producto_admin = async function(req,res){
             let id = req.params['id'];
 
             //polularlo despues del . y la palabra eso es para mostrar la data
-            let reg = await Inventario.find({producto: id}).populate('admin');          
+            let reg = await Inventario.find({producto: id}).populate('admin').sort({createdAt:-1});          
             //enviar a front
             res.status(200).send({data:reg});
             
@@ -243,6 +243,38 @@ const eliminar_inventario_producto_admin = async function(req,res){
     }
 }
 
+//Registrar inventario
+
+const registro_inventario_producto_admin = async function(req, res){
+    if(req.user){
+        if(req.user.role =='admin'){
+            
+            //obtener el cuerpo del requerimiento
+            let data = req.body;
+            
+            let reg = await Inventario.create(data);
+
+            //obtener registrod e producto
+            let prod = await Producto.findById({_id:reg.producto});
+
+            //calcular stock //stock actual //stock aumentar
+            let nuevo_stock = parseInt(prod.stock) + parseInt(reg.cantidad) ;
+            
+            //actualizacion de stock al producto
+            let producto = await Producto.findByIdAndUpdate({_id:reg.producto},{
+                stock: nuevo_stock
+            }); 
+
+            res.status(200).send({data:producto});
+            
+        }else{
+            res.status(500).send({message: 'NoAcces'});
+        }
+    }else{
+        res.status(500).send({message: 'NoAcces'});
+    }
+}
+
 //exportar metodos
 module.exports = {
     registo_producto_admin,
@@ -252,5 +284,6 @@ module.exports = {
     actualizar_producto_admin,
     eliminar_producto_admin,
     listar_inventario_producto_admin,
-    eliminar_inventario_producto_admin
+    eliminar_inventario_producto_admin,
+    registro_inventario_producto_admin
 }
