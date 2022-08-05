@@ -118,7 +118,8 @@ const registro_cliente_admin = async function(req,res){
         if(req.user.role =='admin'){
             var data = req.body;
             //contraseña por defecto
-            bcrypt.hash('123456789', 9, async function(err,hash){
+          //  bcrypt.hash('123456789', 9, async function(err,hash){
+             bcrypt.hash('123456789', 9, async function(err,hash){
                 if(hash){
                     data.password = hash;
                     let reg = await Cliente.create(data);
@@ -224,6 +225,52 @@ const obtener_cliente_guest = async function(req,res){
     }
 }
 
+const actualizar_perfil_cliente_guest = async function(req,res){
+    if(req.user){
+        //identificador del cliente
+       var id = req.params['id'];
+        //obtener todo el cuerpo de la solicitud
+       var data = req.body;
+
+       //obtenemos id y data a actualizar
+       if(data.password){
+            //encriptar
+            bcrypt.hash('123456789', 9, async function(err,hash){
+                var reg = await Cliente.findByIdAndUpdate({_id:id},
+                    {
+                        nombres: data.nombres,
+                        apellidos: data.apellidos,      
+                        telefono: data.telefono,
+                        f_nacimiento: data.f_nacimiento,
+                        dni:data.dni,
+                        genero:data.genero,
+                        pais:data.pais,
+                        password: hash
+            
+                    });
+                    res.status(200).send({data:reg});
+            });
+          
+       }else{
+        var reg = await Cliente.findByIdAndUpdate({_id:id},
+            {
+                nombres: data.nombres,
+                apellidos: data.apellidos,  
+                telefono: data.telefono,
+                f_nacimiento: data.f_nacimiento,
+                dni:data.dni,
+                genero:data.genero,
+                pais:data.pais
+    
+            });
+            res.status(200).send({data:reg});
+    
+       }     
+    }else{
+        res.status(500).send({message: 'NoAcces'});
+    }
+}
+
 module.exports={
     registro_cliente,
     login_cliente,
@@ -232,5 +279,6 @@ module.exports={
     obtener_cliente_admin,
     actualizar_cliente_admin,
     eliminar_cliente_admin,
-    obtener_cliente_guest
+    obtener_cliente_guest,
+    actualizar_perfil_cliente_guest
 }
